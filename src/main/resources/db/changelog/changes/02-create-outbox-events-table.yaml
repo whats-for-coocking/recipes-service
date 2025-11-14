@@ -1,0 +1,70 @@
+databaseChangeLog:
+  - changeSet:
+      id: 002-create-outbox-events-table
+      author: akrotov
+      changes:
+        - createTable:
+            tableName: outbox_events
+            columns:
+              - column:
+                  name: id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: aggregate_type
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: aggregate_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: event_type
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payload
+                  type: JSONB
+              - column:
+                  name: created_at
+                  type: TIMESTAMP
+                  defaultValueComputed: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: processed
+                  type: BOOLEAN
+                  constraints:
+                    nullable: false
+
+        - createIndex:
+            tableName: outbox_events
+            columns:
+              - column:
+                  name: aggregate_type
+              - column:
+                  name: aggregate_id
+            indexName: idx_outbox_events_aggregate
+
+        - createIndex:
+            tableName: outbox_events
+            columns:
+              - column:
+                  name: processed
+            indexName: idx_outbox_events_processed
+
+        - createIndex:
+            tableName: outbox_events
+            columns:
+              - column:
+                  name: event_type
+            indexName: idx_outbox_events_event_type
+
+        - sql:
+            comment: Create index for unprocessed events for efficient polling
+            sql: CREATE INDEX idx_outbox_events_unprocessed ON outbox_events (created_at) WHERE processed = false

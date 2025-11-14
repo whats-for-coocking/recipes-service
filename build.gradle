@@ -45,6 +45,9 @@ dependencies {
 	//Postgres
 	runtimeOnly 'org.postgresql:postgresql'
 
+	// Liquibase
+	implementation 'org.liquibase:liquibase-core'
+
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
