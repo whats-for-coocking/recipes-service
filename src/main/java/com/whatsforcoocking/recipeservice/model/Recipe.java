@@ -21,6 +21,9 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column(name = "user_id")
+    private UUID userId;
+
     @Column(name = "name")
     private String name;
 

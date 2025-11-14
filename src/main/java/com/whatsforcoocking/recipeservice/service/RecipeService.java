@@ -7,10 +7,12 @@ import java.util.UUID;
 
 public interface RecipeService {
 
-    RecipeDto createRecipe(RecipeDto recipeDto);
+    RecipeDto createRecipe(RecipeDto recipeDto, UUID userid);
 
-    RecipeDto getRecipe(UUID id);
+    RecipeDto getRecipe(UUID id, UUID userId);
 
-    UUID deleteRecipe(UUID id);
+    RecipeDto updateRecipe(UUID id, RecipeDto recipeDto, UUID userId);
+
+    UUID deleteRecipe(UUID id, UUID userId);
 
 }
