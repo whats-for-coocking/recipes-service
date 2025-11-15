@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 
@@ -31,6 +32,9 @@ public class DefaultRecipeService implements RecipeService {
         log.trace("[DefaultRecipeService] Create recipe user: {}", userId);
         var recipeEntity = recipeMapper.toEntity(recipeDto);
         recipeEntity.setUserId(userId);
+        var timestamp = Instant.now();
+        recipeEntity.setCreated(timestamp);
+        recipeEntity.setUpdated(timestamp);
         recipeEntity = recipeRepository.save(recipeEntity);
         outboxService.saveEvent(
                 "RECIPE",

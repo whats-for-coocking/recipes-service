@@ -1,9 +1,9 @@
 package com.whatsforcoocking.recipeservice.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,6 +11,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "outbox_events")
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class OutboxEvent {
@@ -23,8 +25,9 @@ public class OutboxEvent {
     private UUID aggregateId;
     private String eventType;
 
+    @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "jsonb")
-    private String payload;
+    private Object payload;
 
     private LocalDateTime createdAt;
     private boolean processed;

@@ -3,6 +3,7 @@ package com.whatsforcoocking.recipeservice.rest.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -16,4 +17,7 @@ public class RecipeDto {
 
     @JsonProperty("description")
     private String description;
+
+    @JsonProperty("ingredients")
+    private List<Ingredient> ingredients;
 }
